@@ -42,8 +42,7 @@ class Mypage extends Component {
       container.prepend(effect)
       setTimeout(()=>{
         effect.remove();
-      }, 5000)
-    // }
+      }, 2500)
   }
 
   async getWeather(){

@@ -2,7 +2,7 @@
   display: flex;
   justify-content:space-between;
   /* border: 1px solid white; */
-  background: linear-gradient(10deg, rgba(65,55,183,1) 0%, rgba(82,85,183) 35%, rgba(92,60,191,1) 100%);
+  /* background: linear-gradient(10deg, rgba(65,55,183,1) 0%, rgba(82,85,183) 35%, rgba(92,60,191,1) 100%); */
 }
 
 .header-title-container{

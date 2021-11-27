@@ -55,7 +55,7 @@
 }
 
 .mypageContainer {
-  background: linear-gradient(130deg, rgba(65,55,183,1) 0%, rgba(92,85,183) 35%, rgba(92,60,191,1) 100%);
+  /* background: linear-gradient(130deg, rgba(65,55,183,1) 0%, rgba(92,85,183) 35%, rgba(92,60,191,1) 100%); */
   width: 100vw;
   height: 90vh;
   padding-top: 15%;
@@ -186,7 +186,7 @@ p{
 }
 
 .fa-snowflake{
-  animation : fall 5s linear forwards;
+  animation : fall 2.5s linear forwards;
   color: #fff; 
   font-size:0.8rem;
   position: absolute;;
