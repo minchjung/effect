@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import Login from './components/Login';
 import Mypage from './components/Mypage';
-import Header from './components/Header';   
+// import Header from './components/Header';   
 import axios from 'axios';
 
 class App extends Component {
@@ -16,6 +16,7 @@ class App extends Component {
     this.getKakaoAccToken = this.getKakaoAccToken.bind(this);
   }
 
+  // To get the code from kakao 
   async getKakaoAccToken(kakaoCode){
     const client_id = "1790cb63ae07847a0629b8b85b1bc2c6";
     const client_secret= "LZl1ctF5A55MsMTwjxUSGioxXtWO5abm";
@@ -27,17 +28,15 @@ class App extends Component {
 		)
     .catch(err =>{
       console.log(err); 
-      // we can give some feedback of err to user here
     })
-    // console.log(data)
+    
+  // kakao Success => change the isLogin, isGoogle state 
     if(data){
-      // console.log(data)
       this.setState({
         isLogin:true, 
         isGoogle:false,
         accessToken : data.data.access_token,
       })
-      // console.log(data.data.access_token)
       return 
     }
 
@@ -65,7 +64,7 @@ class App extends Component {
     return (
       <Router>
         <div className='App'>
-          <Header/>
+          {/* <Header/> */}
           {isLogin ? (
             <Mypage accessToken={accessToken} isGoogle={isGoogle}/>
           ) : (

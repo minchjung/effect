@@ -1,17 +1,3 @@
-/* <div className="info-container">
-<div className="info-weather-box">
-  <img src=""/>
-  <span className="info-current-temp"></span>
-</div>
-<div className="info-tempMax-box">
-  <span></span>
-  <span className="info-tempMax"></span>
-</div>
-<div className="info-tempMin-box">
-  <span></span>
-  <span className="info-tempMin"></span>
-</div>
-</div> */
 
 .info-container{
   width: 60%;

@@ -3,15 +3,13 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-
 }
 
 .App {
-  /* display: flex; */
+  display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  /* background-color: #264653; */
   background: linear-gradient(180deg, rgba(65,55,183,1) 0%, rgba(82,85,183) 35%, rgba(92,60,191,1) 100%);
 }
 
@@ -154,7 +152,6 @@ p{
   background: aliceblue;
   color: #252525;
 
-  /* display: inline-block; */
 }
 
 

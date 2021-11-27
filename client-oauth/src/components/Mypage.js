@@ -1,13 +1,12 @@
 import React, { Component } from "react";
 import Info from "./Info"
 import axios from 'axios';
+import Header from './Header'
 
 class Mypage extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
-      // images: [],
       effectOn:false,
       background : "mypageContainer"
     }
@@ -15,18 +14,17 @@ class Mypage extends Component {
     this.getKakaoUserInfo = this.getKakaoUserInfo.bind(this)
     this.getWeather = this.getWeather.bind(this)
     this.startTimer= this.startTimer(this)
-    this.createSnow = this.createSnow.bind(this)
+    this.createEffect = this.createEffect.bind(this)
   }
 
   startTimer(){
-    this.setState({
-      effectOn:true
-    })
-    setInterval(this.createSnow, 100)
+    this.setState({ effectOn : true });
+    setInterval(this.createEffect, 100)
+    
   }
 
 
-  createSnow(){
+  createEffect(){
     // const {effectOn} = this.state
     // if(!this.state.effectOn) return 
     // if(this.state.effectOn){
@@ -47,13 +45,10 @@ class Mypage extends Component {
 
   async getWeather(){
     const API_key = "21674499d78d5cc9f73dd339f934e97d";
-    const endpoint = `http://api.openweathermap.org/data/2.5/weather?id=1835848&appid=21674499d78d5cc9f73dd339f934e97d` 
+    const endpoint = `http://api.openweathermap.org/data/2.5/weather?id=1835848&appid=${API_key}` 
     // api.openweathermap.org/data/2.5/weather?id=1835848&appid=21674499d78d5cc9f73dd339f934e97d
-    const weatherInfo = await axios.get(
-      endpoint, 
-    ).catch(err=> {
-      return 
-    })
+    const weatherInfo = await axios.get(endpoint)
+    .catch(err=> { console.log(err) })
     if(weatherInfo){
       // console.log(weatherInfo.data)
       // goAnimationEffect()
@@ -141,6 +136,7 @@ class Mypage extends Component {
     const social = isGoogle ? "Google" : "Kakao"
     return (
       <div>
+        <Header />
         <div className="mypageContainer">
         {/* <div className={this.state.background}> */}
           <div> 
@@ -157,40 +153,14 @@ class Mypage extends Component {
                 icon={icon} codeId ={id} main={main}
               />
               <div className="mypage-btn-container">
-                {/* {!icon  */}
-                  {/* ? (  */}
-                      <div className="mypage-btn-container">
-                        <button className="getWeatherBtn" onClick={this.getWeather}>날씨 받자</button>
-                        <button className="getAnimationBtn" onClick={this.startTimer}>효과 받자</button>
-                      
-                      </div>
-                       
-                  {/* : null */}
-                {/* } */}
+                <div className="mypage-btn-container">
+                  <button className="getWeatherBtn" onClick={this.getWeather}>날씨 받자</button>
+                  <button className="getAnimationBtn" onClick={this.startTimer}>효과 받자</button>
+                </div>
               </div>
               {/* <button className="goOn">Go on</button> */}
             </div>
           </div>
-{/* 
-          <div>안녕하세요. <span className="name" id="name">{name}</span>님! {social} 로그인이 완료되었습니다.</div>
-          <div>
-            <div className="item">
-              나의 로그인 아이디:
-              <span id="login">  {isGoogle ? email : nickname} </span>
-            </div>
-            <div className="item">
-              나의 {social} email:
-              <span id="html_url">  { isGoogle? email : "kakao@email.com" } </span>
-            </div>
-          </div>
-
-          <div id="images">
-            <p>내 프로필 이미지</p>
-              <img src={ isGoogle? picture : profile_image } />
-              {
-                isGoogle ? null : <img src={ thumbnail_image }/>
-              }
-          </div> */}
         </div>
       </div >
     );

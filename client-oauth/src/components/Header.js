@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import axios from 'axios';
-import './Header.css'
-class Headers extends Component {
+// import './Header.css'
+import '../style/Header.css'
+class Header extends Component {
 
   constructor(props) {
     super(props);
@@ -25,12 +26,10 @@ class Headers extends Component {
             <div><i class="fas fa-sign-in-alt"></i></div>
           </div>
         </div>
-
-
       </div >
     );
   }
 
 }
 
-export default Headers;
+export default Header;

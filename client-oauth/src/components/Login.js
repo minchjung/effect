@@ -1,5 +1,5 @@
-import Axios from 'axios';
 import React, { Component } from 'react';
+const { getGoogleAccesToken } = require('../oauth')
 
 class Login extends Component {
   constructor(props) {
@@ -9,12 +9,7 @@ class Login extends Component {
   }
 
   googleLoginHandler() {
-    const client_id="218465323122-rtk87nvtaj2j5qmdg72qvas9sj81jee0.apps.googleusercontent.com";
-    const redirect_uri = "http://localhost:3000"
-    // const redirect_uri = "http://localhost:3000"
-    const google= `https://accounts.google.com/o/oauth2/v2/auth?client_id=${client_id}&response_type=token&redirect_uri=${redirect_uri}&scope=https://www.googleapis.com/auth/userinfo.profile`
-    // https://accounts.google.com/o/oauth2/v2/auth/identifier?client_id=218465323122-rtk87nvtaj2j5qmdg72qvas9sj81jee0.apps.googleusercontent.com&response_type=token&redirect_uri=http%3A%2F%2Flocalhost%3A3000&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile&flowName=GeneralOAuthFlow
-    window.location.assign(google)
+    getGoogleAccesToken()
   }
   kakaoLoginHandler(){
     const client_id = "1790cb63ae07847a0629b8b85b1bc2c6";
