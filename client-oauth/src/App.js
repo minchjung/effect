@@ -36,7 +36,8 @@ class App extends Component {
       this.setState({
       isLogin : true, 
       isGoogle : true,
-      accessToken : googleAccToken, // set this token 
+      accessToken : googleAccToken,
+      // set this token 
     })
   }
 
@@ -48,15 +49,17 @@ class App extends Component {
       msg 
     } = await getKakaoAccToken(kakaoCode) // <- get kakao token function  
     
-    if(isSuccess){ // get the token !!
+    if(isSuccess){ 
       this.setState({
         isLogin : true, 
         isGoogle : false,
-        accessToken,  // set this token !! 
+        accessToken, 
+        // set this token !! 
       })
     }
     else{
-      console.log(msg); // error hanlde here
+      console.log(msg); 
+      // error hanlde here
     }
   }
 

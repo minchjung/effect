@@ -7,10 +7,11 @@ class Login extends Component {
     this.googleLoginHandler = this.googleLoginHandler.bind(this)
     this.kakaoLoginHandler = this.kakaoLoginHandler.bind(this)
   }
-
+  // get google token 
   googleLoginHandler() {
     getGoogleAccToken()
   }
+  // get kakao code 
   kakaoLoginHandler(){
     getKakaoCode()
   }

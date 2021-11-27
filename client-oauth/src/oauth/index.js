@@ -7,7 +7,19 @@ const getGoogleAccToken = () => {
   window.location.assign(google)
 };
   
-const getGoogleUserInfo = () => {
+const getGoogleUserInfo = async ({accessToken}) => {
+  const googleData = await axios.get('https://www.googleapis.com/oauth2/v2/userinfo?access_token=' + accessToken, { 
+    headers: { 
+      authorization: `token ${accessToken}`, 
+      accept: 'application/json' 
+  }})
+  .catch(err => {
+    console.log(err);
+    return { isSuccess : false, accessToken : null , msg : "Server error"} 
+  })
+  return googleData 
+    ? { isSuccess : true, data : googleData.data, msg : "Success" }
+    : { isSuccess : false, data : null, msg : "Bad Requset" }
 
 };
   
@@ -33,7 +45,7 @@ const getKakaoAccToken = async (kakaoCode) => {
   
   return data 
     ? { isSuccess : true ,  accessToken : data.data.access_token, msg : "Success" }
-    : { isSuccess : false, accessToken : null, msg : "Bad" }
+    : { isSuccess : false, accessToken : null, msg : "Bad Request" }
 }
 
 export {
