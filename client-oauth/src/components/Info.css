@@ -1,0 +1,96 @@
+/* <div className="info-container">
+<div className="info-weather-box">
+  <img src=""/>
+  <span className="info-current-temp"></span>
+</div>
+<div className="info-tempMax-box">
+  <span></span>
+  <span className="info-tempMax"></span>
+</div>
+<div className="info-tempMin-box">
+  <span></span>
+  <span className="info-tempMin"></span>
+</div>
+</div> */
+
+.info-container{
+  width: 60%;
+  min-width: 345x;
+  height: 50px;
+
+  margin: 25px auto;
+  display: flex;
+  justify-content: space-around;
+  border-radius: 15px;
+  background: aliceblue;
+  border: 1px solid #fff;
+
+}
+
+.info-innerbox{
+  width: 20%;
+  min-width : 85px;
+  height: 100%;
+  margin-top: 2px;
+  /* border: 1px solid coral; */
+  text-align: center;
+  display: flex;
+  color: #252525;
+
+}
+.info-img-box{
+  width: 45%;
+  /* border: 1px solid #fff; */
+  float: left;
+}
+.info-img-box img{
+  width: 100%;
+  float: left;
+  margin-top: 2px;;
+}
+.info-innerbox span{
+  font-weight: bolder;
+
+}
+
+.info-cur-temp{
+  display: inline-block;
+  font-size: 0.8rem;
+  line-height: 45px;
+  color: royalblue;
+  font-weight: bold;
+}
+
+
+.info-temp-title{
+  font-size: 0.6rem;
+  line-height: 40px;
+}
+
+.info-temp-max{
+  color: crimson;
+  font-size: 1.0rem;
+  font-weight: bolder;
+  line-height: 40px;
+}
+
+.info-temp-min{
+  color: royalblue;
+  font-size: 1.0rem;
+  font-weight: bolder;
+  line-height: 40px;
+}
+
+@media  screen and (max-width:768) {
+  .info-container{
+    width: 90%;
+    min-width:400px;
+  }
+}
+
+@media screen and (max-width:599){
+  .info-container{
+    width: 100%;
+    min-width:500px;
+  }
+}

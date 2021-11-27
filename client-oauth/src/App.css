@@ -1,0 +1,199 @@
+* {
+  font-family: 'Roboto', sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+
+}
+
+.App {
+  /* display: flex; */
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  /* background-color: #264653; */
+  background: linear-gradient(180deg, rgba(65,55,183,1) 0%, rgba(82,85,183) 35%, rgba(92,60,191,1) 100%);
+}
+
+.loginContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 60vh;
+  width: 500px;
+  background-color: white;
+  padding-top: 50px;
+  border-radius: 10px;
+  font-weight: 900;
+}
+
+.loginContainer button{
+  width: 80%;
+  height: 10%;
+  border-radius: 10px;
+  background-color: black;
+  color: white;
+  font-size: 1.2rem;
+  height: 10%;
+  font-weight: 900;
+  margin-top: 4rem;
+  border: none;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+}
+.loginContainer button:last-child{
+  margin-top: 1rem;
+  background-color:#FFE650;
+  color: #264653;
+}
+
+
+.loginContainer button:hover{
+  background-color: #ccc;
+  border: 3px solid #ccc;
+}
+
+.mypageContainer {
+  background: linear-gradient(130deg, rgba(65,55,183,1) 0%, rgba(92,85,183) 35%, rgba(92,60,191,1) 100%);
+  width: 100vw;
+  height: 90vh;
+  padding-top: 15%;
+}
+
+.darkMode{
+  background-color: #252525;
+  color: #fff;
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+}
+
+.name {
+  font-weight: 800;
+}
+
+.item {
+  font-weight: 800;
+  font-size: 1.2rem;
+}
+
+img {
+  width: 100px;
+} 
+
+#logo {
+  width: 250px;
+  margin-top: 3rem;
+}
+p{
+  font-weight: 800;
+}
+
+.main-center-container{
+  width: 70%;
+  height: 100vh;
+  margin: auto;
+  /* border: 1px solid #fff; */
+
+}
+
+.imgWrapper{
+  position: relative;
+  display: flex;
+  justify-content: space-evenly;
+  width: 70%;
+  min-width: 220px;
+  height: 10%;
+  margin: 20px auto;
+  /* border: 1px solid black; */
+
+}
+.imgWrapper i {
+  width: 10%;
+  min-width: 45px;
+  min-height: 45px;
+  height: 95%;
+  color: #fff;
+  /* border: 1px solid #fff; */
+  font-size: 2.0rem;
+  text-align: center;
+}
+
+
+.myTitle{
+  font-size: 1.6rem;
+  color: #fff;
+  padding-top: 15px;
+  text-align: center;
+}
+/* .myTitle:hover{
+  transform : scale(1.2);
+  transition: transform 1.5s;
+} */
+.mypage-btn-container{
+  /* border: 1px solid rebeccapurple; */
+  margin: 0 auto;
+  width: 35%;
+  min-width: 180px;
+  display: flex;
+  justify-content: space-evenly;
+}
+.mypage-btn-container button{
+  border: none;
+  border-radius: 15px;
+  padding: 10px;;
+  color: #fff;
+  font-size: 0.2rem;
+  margin: 10px ;
+  cursor: pointer;
+  transition: transform 1.1s;
+  background: aliceblue;
+  color: #252525;
+
+  /* display: inline-block; */
+}
+
+
+
+.getWeatherBtn:hover{
+  background: royalblue;
+  color: #fff;
+  transform:scale(1.1)
+}
+.getAnimationBtn:hover{
+  color: #fff;
+  background: crimson;
+  transform:scale(1.1)
+}
+
+.goOn{
+  display: inline-block;
+  position: absolute;
+  width: 100px;
+  height: 50px;
+  bottom :12%;
+  right: 5%;
+  border: none;
+  border-radius: 20px;
+  background-color: #fff;
+  color:black;
+  font-size: 1.5rem;
+  font-weight: bolder;
+}
+
+.fa-snowflake{
+  animation : fall 5s linear forwards;
+  color: #fff; 
+  font-size:0.8rem;
+  position: absolute;;
+}
+@keyframes fall{
+  to{
+    transform:translateY(90vh);
+    /* transition: transform 0.1s;   */
+  }
+}

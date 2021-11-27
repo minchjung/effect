@@ -1,0 +1,150 @@
+* {
+  font-family: 'Gothic', sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.App {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #264653;
+  color: #fff;
+}
+
+.loginContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 60vh;
+  width: 500px;
+  background-color: white;
+  padding-top: 50px;
+  border-radius: 10px;
+  font-weight: 900;
+}
+
+.loginContainer button{
+  width: 80%;
+  height: 10%;
+  border-radius: 10px;
+  background-color: black;
+  color: white;
+  font-size: 1.2rem;
+  height: 10%;
+  font-weight: 900;
+  margin-top: 4rem;
+  border: none;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+}
+.loginContainer button:last-child{
+  margin-top: 1rem;
+  background-color:#FFE650;
+  color: #264653;
+}
+
+
+.loginContainer button:hover{
+  background-color: #ccc;
+  border: 3px solid #ccc;
+}
+
+.mypageContainer {
+  background-color: white;
+  width: 100vw;
+  height: 90vh;
+  padding: 5%;
+  /* background: url("test02.jpg"); */
+  background: url("test03.jpeg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  /* opacity: 0.5; */
+
+  /* filter: invert(80%); */
+  /* color: aliceblue; */
+}
+
+.darkMode{
+  background-color: #252525;
+  color: #fff;
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+}
+
+.name {
+  font-weight: 800;
+}
+
+.item {
+  font-weight: 800;
+  font-size: 1.2rem;
+}
+
+img {
+  width: 100px;
+} 
+
+#logo {
+  width: 250px;
+  margin-top: 3rem;
+}
+p{
+  font-weight: 800;
+}
+
+.imgWrapper{
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  height: 61vh;
+  opacity: 1.0;
+  border: 5px solid white;
+
+}
+.imgWrapper div{
+  width: 25%;
+  height: 60vh;
+}
+.imgBox1{
+  background-color: gold;
+}
+.imgBox2{
+  background-color: coral;
+}
+.imgBox3{
+  background-color: greenyellow;
+}
+.imgBox4{
+  background-color: aquamarine;
+}
+.title{
+  position: absolute;
+  top: 20%;
+  left: 10%; 
+  font-size: 12rem;
+  color: #fff;
+  transform: translate(-20%, -5%);
+}
+.goOn{
+  display: inline-block;
+  position: absolute;
+  width: 100px;
+  height: 50px;
+  bottom :12%;
+  right: 5%;
+  border: none;
+  border-radius: 20px;
+  background-color: coral;
+  color:aliceblue;
+  font-size: 1.5rem;
+  font-weight: bolder;
+}
