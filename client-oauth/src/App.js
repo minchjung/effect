@@ -16,34 +16,43 @@ class App extends Component {
     this.kakaoTokenHandler = this.kakaoTokenHandler.bind(this);
   }
 
-  componentDidMount() {
+  componentDidMount() { // useEffect 와 유사 function! 
+    // google token on redirect para
+    // kakao code on redirect para
     const url = new URL(window.location.href)
     const googleAccToken = url.hash.split("=")[1]
     const kakaoCode = url.searchParams.get("code")
 
-    if(googleAccToken) {
+    if(googleAccToken) { // google 로긴 유저 
       this.googleTokenHandler(googleAccToken);
     }
-    if(kakaoCode){
+    if(kakaoCode){ // kakao 로긴 유저 
       this.kakaoTokenHandler(kakaoCode);
     }
   }
 
+  // google user ahuthentic to login : 토큰 존재 
   googleTokenHandler (googleAccToken){
-    this.setState({
+      this.setState({
       isLogin : true, 
       isGoogle : true,
-      accessToken : googleAccToken,
+      accessToken : googleAccToken, // set this token 
     })
   }
 
   async kakaoTokenHandler(kakaoCode){
-    const { isSuccess, accessToken, msg } = await getKakaoAccToken(kakaoCode)
-    if(isSuccess){
+    // kakao must exchange code to token 
+    const { 
+      isSuccess, 
+      accessToken, 
+      msg 
+    } = await getKakaoAccToken(kakaoCode) // <- get kakao token function  
+    
+    if(isSuccess){ // get the token !!
       this.setState({
-        accessToken,
         isLogin : true, 
-        isGoogle : false
+        isGoogle : false,
+        accessToken,  // set this token !! 
       })
     }
     else{
