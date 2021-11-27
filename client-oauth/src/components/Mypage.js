@@ -1,4 +1,4 @@
-import React, { Component, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Info from "./Info"
 import axios from 'axios';
 import Header from './Header'
@@ -11,28 +11,25 @@ function Mypage ({ isGoogle, accessToken }) {
   const [ weather, setWeather]= useState([null, null]); //[ id, main , icon]
   const [ temp, setTemp ] = useState([ null, null, null ]); // [ 현재, 최저, 최고]
   const [ googleData, setGoogleData ] = useState(null);
+  const [ effectOn, seteffectOn ] = useState(false)
 
   useEffect( () => { 
-    console.log(accessToken)
-    console.log("isGoogle ", isGoogle)
+    // console.log(accessToken)
+    // console.log("isGoogle ", isGoogle)
     isGoogle 
       ? googleUserHandler() 
       : kakaoUserHandler()
-  },[])
+  },[isGoogle])
 
-  const effectHandler = () => {
-    if( intervalId ) setFalling();
-    else stopFalling();
+  const effectOnHandler = () => {
+    seteffectOn(true)
+    const interval = setInterval(createEffect, 300);
+    setIntervalId(interval);
   }
 
-  const setFalling = () => {
-    const interval = setInterval(createEffect, 100);
-    setIntervalId({ intervalId : interval })
-  }
- 
-  const stopFalling = () => {
+  const effectOffHandler = () => {
+    seteffectOn(false)
     clearInterval(intervalId);
-    setIntervalId({ intervalId : null });
   }
 
   const weatherHandler = async () => {
@@ -91,7 +88,6 @@ function Mypage ({ isGoogle, accessToken }) {
     // })
   }
 
-    // const { nickname, profile_image, thumbnail_image } = this.state
     return (
       !accessToken 
       ? <div>로그인이 필요합니다</div>
@@ -116,7 +112,10 @@ function Mypage ({ isGoogle, accessToken }) {
               <div className="mypage-btn-container">
                 <div className="mypage-btn-container">
                   <button className="getWeatherBtn" onClick={weatherHandler}>날씨 받자</button>
-                  <button className="getAnimationBtn" onClick={effectHandler}>효과 받자</button>
+                  {!effectOn 
+                    ? <button className="getAnimationBtn" onClick={effectOnHandler}>효과 받자</button>
+                    : <button className="stopAnimationBtn" onClick={effectOffHandler}>효과 그만</button>
+                  }
                 </div>
               </div>
             </div>
