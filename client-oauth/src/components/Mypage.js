@@ -1,51 +1,46 @@
-import React, { Component } from "react";
+import React, { Component, useEffect, useState } from "react";
 import Info from "./Info"
 import axios from 'axios';
 import Header from './Header'
 import { getGoogleUserInfo } from '../api/social'
+import { getWeather, createEffect } from '../api/weather'
 
-class Mypage extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      effectOn:false,
-      background : "mypageContainer"
-    }
-    this.googleUserHandler = this.googleUserHandler.bind(this)
-    this.kakaoUserHandler = this.kakaoUserHandler.bind(this)
-    this.getWeather = this.getWeather.bind(this)
-    this.startTimer= this.startTimer(this)
-    this.createEffect = this.createEffect.bind(this)
+function Mypage ({ isGoogle, accessToken }) {
+  const [ intervalId, setIntervalId ] = useState(null); 
+  const [ background, setBackground ] = useState("");
+  const [ weather, setWeather]= useState([null, null]); //[ id, main , icon]
+  const [ temp, setTemp ] = useState([ null, null, null ]); // [ 현재, 최저, 최고]
+  const [ googleData, setGoogleData ] = useState(null);
+
+  useEffect( () => { 
+    console.log(accessToken)
+    console.log("isGoogle ", isGoogle)
+    isGoogle 
+      ? googleUserHandler() 
+      : kakaoUserHandler()
+  },[])
+
+  const effectHandler = () => {
+    if( intervalId ) setFalling();
+    else stopFalling();
   }
 
-  startTimer(){
-    this.setState({ effectOn : true });
-    
+  const setFalling = () => {
+    const interval = setInterval(createEffect, 100);
+    setIntervalId({ intervalId : interval })
+  }
+ 
+  const stopFalling = () => {
+    clearInterval(intervalId);
+    setIntervalId({ intervalId : null });
   }
 
-  createEffect(){
-    if(this.state.effectOn){
-      setInterval(this.createEffect, 100)
-      const effect = document.createElement('i');
-      let container = document.querySelector('.headerContainer')
-      effect.classList.add('fas');
-      effect.classList.add('fa-snowflake');
-      effect.style.left = Math.random() * window.innerWidth + 'px';
-      effect.style.animationDirection = Math.random()*3+2+'s';
-      effect.style.fontSize=Math.random()+"rem";
-      effect.style.opacity=Math.random();
-      container.prepend(effect)
-      setTimeout(()=>{
-        effect.remove();
-      }, 5000)
-    }
-  }
-
-  async getWeather(){
+  const weatherHandler = async () => {
     const API_key = "21674499d78d5cc9f73dd339f934e97d";
     const endpoint = `http://api.openweathermap.org/data/2.5/weather?id=1835848&appid=${API_key}` 
     const weatherInfo = await axios.get(endpoint)
     .catch(err=> { console.log(err) })
+
     if(weatherInfo){
       const{
         sunrise, sunset
@@ -57,44 +52,31 @@ class Mypage extends Component {
       // console.log(sunfall)
       
       sunfall.getHours() > new Date().getHours()
-        ? this.setState({background : "mypageContainer"})
-        : this.setState({background : "mypageContainer darkMode"})
-
-      this.setState(
-        weatherInfo.data.weather[0], 
-      )
-      this.setState(
-        weatherInfo.data.main
-      )
-      this.setState({
-        sunrise, sunset
-      })
+        ? setBackground({background : ""})
+        : setBackground({background : "darkMode"})
+      const {
+        id, main, icon 
+      } = weatherInfo.data.weather[0];
+      const { 
+        temp, temp_min, temp_max
+      } = weatherInfo.data.main
+      
+      setWeather([id,main,icon]);
+      setTemp([temp, temp_min, temp_max]);
     }
   }
 
-  async googleUserHandler() {
-    const { accessToken } = this.props
+  const googleUserHandler = async () => {
     const{  
-      isSuccess,
-      data,
-      msg
+      isSuccess,data,msg
     } = await getGoogleUserInfo({ accessToken })
     const { email, picture, name } = data;
-    
-    if(isSuccess){
-      this.setState({
-        email, picture, name
-      })
-    }
-    else{
-      console.log(msg)
-      // error handle here
-    }
-
+    if( isSuccess ) setGoogleData({ email, picture, name })
+    else console.log(msg) // error handle here
   }
   
   // Should refactor to server since it has Cors error (browser issue)
-  async kakaoUserHandler(){
+  const kakaoUserHandler = () => {
     console.log("I know you are kakao user to get resources")
     // const { accessToken } = this.props;
 		// const kakaodata = await axios.get(`http://localhost:8080/callback?accessToken=${accessToken}`, 
@@ -109,25 +91,11 @@ class Mypage extends Component {
     // })
   }
 
-  componentDidMount() {
-    const { isGoogle } = this.props;
-    return isGoogle 
-      ? this.googleUserHandler() 
-      : this.kakaoUserHandler()
-  }
-
-  render() {
-    const { accessToken } = this.props
-    if (!accessToken) {
-      return <div>로그인이 필요합니다</div>
-    }
-    const { isGoogle } = this.props.isGoogle
-    const social = isGoogle ? "Google" : "Kakao"
-    const { email, picture, name } = this.state;
-    const { nickname, profile_image, thumbnail_image } = this.state
-    const { id ,main, icon, temp_max, temp_min, temp } = this.state 
-
+    // const { nickname, profile_image, thumbnail_image } = this.state
     return (
+      !accessToken 
+      ? <div>로그인이 필요합니다</div>
+      : 
       <div>
         <Header />
         <div className="mypageContainer">
@@ -142,23 +110,20 @@ class Mypage extends Component {
               </div>
               <div className="myTitle">WeaDresser</div>
               <Info 
-                temp={temp} temp_max={temp_max} temp_min={temp_min} 
-                icon={icon} codeId ={id} main={main}
+                temp={temp[0]} temp_max={temp[2]} temp_min={temp[1]} 
+                icon={weather[2]} codeId ={weather[0]} main={weather[1]}
               />
               <div className="mypage-btn-container">
                 <div className="mypage-btn-container">
-                  <button className="getWeatherBtn" onClick={this.getWeather}>날씨 받자</button>
-                  <button className="getAnimationBtn" onClick={this.startTimer}>효과 받자</button>
+                  <button className="getWeatherBtn" onClick={weatherHandler}>날씨 받자</button>
+                  <button className="getAnimationBtn" onClick={effectHandler}>효과 받자</button>
                 </div>
               </div>
-              {/* <button className="goOn">Go on</button> */}
             </div>
           </div>
         </div>
       </div >
     );
-  }
-
 }
 
 export default Mypage;

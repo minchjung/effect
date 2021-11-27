@@ -36,8 +36,7 @@ class App extends Component {
       this.setState({
       isLogin : true, 
       isGoogle : true,
-      accessToken : googleAccToken,
-      // set this token 
+      accessToken : googleAccToken,// set this token 
     })
   }
 
