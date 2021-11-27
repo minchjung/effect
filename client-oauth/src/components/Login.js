@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-const { getGoogleAccesToken } = require('../oauth')
+import { getGoogleAccToken, getKakaoCode } from '../oauth'
 
 class Login extends Component {
   constructor(props) {
@@ -9,12 +9,10 @@ class Login extends Component {
   }
 
   googleLoginHandler() {
-    getGoogleAccesToken()
+    getGoogleAccToken()
   }
   kakaoLoginHandler(){
-    const client_id = "1790cb63ae07847a0629b8b85b1bc2c6";
-    const kakao = `https://kauth.kakao.com/oauth/authorize?client_id=${client_id}&redirect_uri=http://localhost:3000&response_type=code`;
-    window.location.assign(kakao)
+    getKakaoCode()
   }
 
 

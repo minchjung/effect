@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import Login from './components/Login';
 import Mypage from './components/Mypage';
-// import Header from './components/Header';   
-import axios from 'axios';
+import { getKakaoAccToken }  from './oauth';
 
 class App extends Component {
   constructor() {
@@ -13,50 +12,43 @@ class App extends Component {
       isGoogle: false,
       accessToken: '',
     };
-    this.getKakaoAccToken = this.getKakaoAccToken.bind(this);
+    this.googleTokenHandler = this.googleTokenHandler.bind(this);
+    this.kakaoTokenHandler = this.kakaoTokenHandler.bind(this);
   }
 
-  // To get the code from kakao 
-  async getKakaoAccToken(kakaoCode){
-    const client_id = "1790cb63ae07847a0629b8b85b1bc2c6";
-    const client_secret= "LZl1ctF5A55MsMTwjxUSGioxXtWO5abm";
-    const kakaoUrl = `https://kauth.kakao.com/oauth/token?code=${kakaoCode}&client_id=${client_id}&client_secret=${client_secret}&redirect_uri=http://localhost:3000&grant_type=authorization_code`;
-		const data = await axios.post(
-			kakaoUrl,
-			{ headers: { accept: `application/x-www-form-urlencoded` } },
-			{ property_keys: ["kakao_account.email"] }
-		)
-    .catch(err =>{
-      console.log(err); 
-    })
-    
-  // kakao Success => change the isLogin, isGoogle state 
-    if(data){
-      this.setState({
-        isLogin:true, 
-        isGoogle:false,
-        accessToken : data.data.access_token,
-      })
-      return 
-    }
-
-  }
   componentDidMount() {
     const url = new URL(window.location.href)
     const googleAccToken = url.hash.split("=")[1]
     const kakaoCode = url.searchParams.get("code")
-    if (googleAccToken) {
 
-      this.setState({
-        isLogin : true, 
-        isGoogle : true,
-        accessToken : googleAccToken,
-      })
+    if(googleAccToken) {
+      this.googleTokenHandler(googleAccToken);
     }
     if(kakaoCode){
-      this.getKakaoAccToken(kakaoCode)
+      this.kakaoTokenHandler(kakaoCode);
     }
+  }
 
+  googleTokenHandler (googleAccToken){
+    this.setState({
+      isLogin : true, 
+      isGoogle : true,
+      accessToken : googleAccToken,
+    })
+  }
+
+  async kakaoTokenHandler(kakaoCode){
+    const { isSuccess, accessToken, msg } = await getKakaoAccToken(kakaoCode)
+    if(isSuccess){
+      this.setState({
+        accessToken,
+        isLogin : true, 
+        isGoogle : false
+      })
+    }
+    else{
+      console.log(msg); // error hanlde here
+    }
   }
 
   render() {
@@ -64,7 +56,6 @@ class App extends Component {
     return (
       <Router>
         <div className='App'>
-          {/* <Header/> */}
           {isLogin ? (
             <Mypage accessToken={accessToken} isGoogle={isGoogle}/>
           ) : (
