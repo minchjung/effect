@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Info from "./Info"
 import axios from 'axios';
 import Header from './Header'
-import { getGoogleUserInfo } from '../oauth'
+import { getGoogleUserInfo } from '../api/social'
 
 class Mypage extends Component {
   constructor(props) {
@@ -12,7 +12,7 @@ class Mypage extends Component {
       background : "mypageContainer"
     }
     this.googleUserHandler = this.googleUserHandler.bind(this)
-    this.getKakaoUserInfo = this.getKakaoUserInfo.bind(this)
+    this.kakaoUserHandler = this.kakaoUserHandler.bind(this)
     this.getWeather = this.getWeather.bind(this)
     this.startTimer= this.startTimer(this)
     this.createEffect = this.createEffect.bind(this)
@@ -94,7 +94,7 @@ class Mypage extends Component {
   }
   
   // Should refactor to server since it has Cors error (browser issue)
-  async getKakaoUserInfo(){
+  async kakaoUserHandler(){
     console.log("I know you are kakao user to get resources")
     // const { accessToken } = this.props;
 		// const kakaodata = await axios.get(`http://localhost:8080/callback?accessToken=${accessToken}`, 
@@ -113,7 +113,7 @@ class Mypage extends Component {
     const { isGoogle } = this.props;
     return isGoogle 
       ? this.googleUserHandler() 
-      : this.getKakaoUserInfo()
+      : this.kakaoUserHandler()
   }
 
   render() {

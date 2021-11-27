@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import Login from './components/Login';
 import Mypage from './components/Mypage';
-import { getKakaoAccToken }  from './oauth';
+import { getKakaoAccToken }  from './api/social';
 
 class App extends Component {
   constructor() {

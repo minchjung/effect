@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { getGoogleAccToken, getKakaoCode } from '../oauth'
+import { getGoogleAccToken, getKakaoCode } from '../api/social'
 
 class Login extends Component {
   constructor(props) {
