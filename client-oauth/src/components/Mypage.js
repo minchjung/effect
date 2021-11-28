@@ -13,7 +13,7 @@ function Mypage ({ isGoogle, accessToken, darkMode, darkModeHandler }) {
   const [ effectOn, setEffectOn ] = useState(false);
   const [ apiDone, setApiDone ] = useState([false, false]);
 
-  // myPage rendring  :  소셜 userInfo 가져옴 (서버 처리시 수정 필요 )   <-- 사실 홈화면 필요 없음
+  // myPage rendring  :  소셜 userInfo  (서버 처리시 수정 필요 ) 
   useEffect( () => { 
     if(!apiDone[0]){
       isGoogle 
@@ -21,7 +21,7 @@ function Mypage ({ isGoogle, accessToken, darkMode, darkModeHandler }) {
         : kakaoUserHandler()
     }
   },[apiDone[0]])
-  // mypage rendering : 기상 정보 가져옴 
+  // mypage rendering : 기상 정보 
   useEffect( () => {
     if(!apiDone[1]){
       weatherHandler()
@@ -35,7 +35,7 @@ function Mypage ({ isGoogle, accessToken, darkMode, darkModeHandler }) {
       console.log(result.msg) //err handle 
       return 
     }
-    const { // 성공시 가져온 값
+    const { // 성공 가져온 값
       id, main, icon, temp, temp_min, temp_max, sunrise, sunset
     } = result.data
 
@@ -67,7 +67,7 @@ function Mypage ({ isGoogle, accessToken, darkMode, darkModeHandler }) {
   }
   
   // Should refactor to server since it has Cors error (browser issue)
-  // 카카오 유저 정보 받아오기 (UseEffect)
+  // 카카오 유저 정보 받아오기 (UseEffect) 서버처리!
   const kakaoUserHandler = () => {
     console.log("I know you are kakao user to get resources")
     // const { accessToken } = this.props;

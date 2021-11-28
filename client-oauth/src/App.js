@@ -65,7 +65,6 @@ class App extends Component {
   }
 
   darkModeHandler({ darkMode }){
-    console.log(darkMode)
     this.setState({ darkMode })
   }
 
@@ -75,7 +74,9 @@ class App extends Component {
       <Router>
         <div className={ !darkMode ? `App` : `App-darkMode`}>
           {isLogin ? (
-            <Mypage darkMode={this.state.darkMode} darkModeHandler={this.darkModeHandler} accessToken={accessToken} isGoogle={isGoogle}/>
+            <Mypage 
+              darkMode={darkMode} 
+              darkModeHandler={this.darkModeHandler} accessToken={accessToken} isGoogle={isGoogle}/>
           ) : (
               <Login />
             )}
