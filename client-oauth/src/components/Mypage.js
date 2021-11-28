@@ -1,46 +1,40 @@
 import React, { useEffect, useState } from "react";
 import Info from "./Info"
-import axios from 'axios';
 import Header from './Header'
 import '../style/Mypage.css'
 import { getGoogleUserInfo } from '../api/social'
-import { getWeather, createEffect } from '../api/weather'
+import { getWeather } from '../api/weather'
+// import axios from 'axios';
 
-function Mypage ({ isGoogle, accessToken }) {
-  const [ intervalId, setIntervalId ] = useState(null); 
-  const [ background, setBackground ] = useState("");
+function Mypage ({ isGoogle, accessToken, darkMode, darkModeHandler }) {
   const [ weather, setWeather]= useState([null, null]); //[ id, main , icon]
   const [ temp, setTemp ] = useState([ null, null, null ]); // [ 현재, 최저, 최고]
-  const [ googleData, setGoogleData ] = useState(null);
-  const [ effectOn, seteffectOn ] = useState(false)
+  const [ userData, setUserData ] = useState(null);
+  const [ effectOn, setEffectOn ] = useState(false);
+  const [ apiDone, setApiDone ] = useState([false, false]);
 
-  // myPage rendring  :  소셜 userInfo 가져옴 (서버 처리시 수정 필요 )  
+  // myPage rendring  :  소셜 userInfo 가져옴 (서버 처리시 수정 필요 )   <-- 사실 홈화면 필요 없음
   useEffect( () => { 
-    isGoogle 
-      ? googleUserHandler() 
-      : kakaoUserHandler()
-  },[isGoogle])
+    if(!apiDone[0]){
+      isGoogle 
+        ? googleUserHandler() 
+        : kakaoUserHandler()
+    }
+  },[apiDone[0]])
+  // mypage rendering : 기상 정보 가져옴 
+  useEffect( () => {
+    if(!apiDone[1]){
+      weatherHandler()
+    }
+  },[apiDone[1]])
 
-  // 눈, 비 효과 (시작 버튼 클릭시 falling 효과, 토글 교체 가능)
-  const effectOnHandler = () => {
-    seteffectOn(true)
-    const interval = setInterval(createEffect, 300);
-    setIntervalId(interval);
-  }
-  // 눈, 비 효과 (스탑 버튼 클릭시 멈춤 효과, 토글 교체 가능)
-  const effectOffHandler = () => {
-    seteffectOn(false)
-    clearInterval(intervalId);
-  }
-
-    // 날씨 api get 요청 ( useEffect 로 랜더링 될때 받아오기로 수정 필요)
-    const weatherHandler = async () => {
+  // 날씨 api get 요청 ( useEffect 내 실행)
+  const weatherHandler = async () => {
     const result = await getWeather() 
     if( !result.isSuccess ){ //  결과 요청 실패 
       console.log(result.msg) //err handle 
       return 
     }
-    
     const { // 성공시 가져온 값
       id, main, icon, temp, temp_min, temp_max, sunrise, sunset
     } = result.data
@@ -50,23 +44,30 @@ function Mypage ({ isGoogle, accessToken }) {
     const morning = new Date(sunrise*1000).getHours();
     const nowHrs = new Date().getHours();
     nowHrs > morning && nowHrs <= night  
-      ? setBackground({background : ""})
-      : setBackground({background : "darkMode"})
+      ? darkModeHandler({ darkMode : false })
+      : darkModeHandler({ darkMode : true })
       
     setWeather([id,main,icon]);
     setTemp([temp, temp_min, temp_max]);
+    setApiDone([ apiDone[0] , true ])
+    return 
   }
 
+  // 구글 유저 정보 받아오기 (UseEffect )
   const googleUserHandler = async () => {
     const{  
       isSuccess,data,msg
     } = await getGoogleUserInfo({ accessToken })
     const { email, picture, name } = data;
-    if( isSuccess ) setGoogleData({ email, picture, name })
+    if( isSuccess ){
+      setUserData({ email, picture, name });
+      setApiDone([ true, apiDone[1] ])
+    } 
     else console.log(msg) // error handle here
   }
   
   // Should refactor to server since it has Cors error (browser issue)
+  // 카카오 유저 정보 받아오기 (UseEffect)
   const kakaoUserHandler = () => {
     console.log("I know you are kakao user to get resources")
     // const { accessToken } = this.props;
@@ -81,18 +82,17 @@ function Mypage ({ isGoogle, accessToken }) {
     //   nickname, profile_image, thumbnail_image
     // })
   }
-
     return (
       !accessToken 
       ? <div>로그인이 필요합니다</div>
-      : 
-      <div>
-        <Header />
+      : !apiDone[0] || !apiDone[1]
+      ? <div> Loading indicator </div>
+      : <div>
+        <Header effectOn={effectOn} setEffectOn={setEffectOn} darkMode={darkMode} />
         <div className="mypageContainer">
-        {/* <div className={this.state.background}> */}
           <div> 
             <div className="main-center-container">
-            <div className="myTitle">WeaDresser</div>
+            <div className="myTitle">WeaDresser </div>
               <div className="imgWrapper"> 
                   <i className="fas fa-cloud"></i>
                   <i className="far fa-sun"></i>
@@ -103,15 +103,6 @@ function Mypage ({ isGoogle, accessToken }) {
                 temp={temp[0]} temp_max={temp[2]} temp_min={temp[1]} 
                 icon={weather[2]} codeId ={weather[0]} main={weather[1]}
               />
-              <div className="mypage-btn-container">
-                <div className="mypage-btn-container">
-                  <button className="getWeatherBtn" onClick={weatherHandler}>날씨 받자</button>
-                  {!effectOn 
-                    ? <button className="getAnimationBtn" onClick={effectOnHandler}>효과 받자</button>
-                    : <button className="stopAnimationBtn" onClick={effectOffHandler}>효과 그만</button>
-                  }
-                </div>
-              </div>
             </div>
           </div>
         </div>

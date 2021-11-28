@@ -31,9 +31,10 @@
 }
 
 .myTitle{
-  font-size: 1.6rem;
+  font-size: 2.8rem;
   color: #fff;
   /* padding-top: 15px; */
+  margin-bottom: 35px;
   text-align: center;
 }
 
@@ -45,7 +46,14 @@
   display: flex;
   justify-content: space-evenly;
 }
-.mypage-btn-container button{
+
+@media screen and (max-width:768) {
+  .imgWrapper i{
+    font-size: 1.5rem;
+  }
+}
+
+/* .mypage-btn-container button{
   border: none;
   border-radius: 15px;
   padding: 10px;;
@@ -73,11 +81,5 @@
   color: #fff;
   background: crimson;
   transform:scale(1.1)
-}
+} */
 
-
-@media screen and (max-width:768) {
-  .imgWrapper i{
-    font-size: 1.5rem;
-  }
-}

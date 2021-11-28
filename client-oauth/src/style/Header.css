@@ -14,6 +14,7 @@
   font-size: 1.2rem;
   margin-left : 10px;
   /* border: 1px solid #fff; */
+  margin-top: 1px;
 }
 
 .logo-name-header{
@@ -28,6 +29,7 @@
   display: flex;
   padding: 5px 0;
   margin-right: 10px;
+  position:relative;
   /* border: 1px solid #fff; */
 }
 .user-box i{
@@ -38,4 +40,3 @@
 .user-box i:hover{
   color: coral;
 }
-

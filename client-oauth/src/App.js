@@ -11,9 +11,11 @@ class App extends Component {
       isLogin: false,
       isGoogle: false,
       accessToken: '',
+      darkMode:"",
     };
     this.googleTokenHandler = this.googleTokenHandler.bind(this);
     this.kakaoTokenHandler = this.kakaoTokenHandler.bind(this);
+    this.darkModeHandler= this.darkModeHandler.bind(this);
   }
 
   componentDidMount() { // useEffect 와 유사 function! 
@@ -62,13 +64,18 @@ class App extends Component {
     }
   }
 
+  darkModeHandler({ darkMode }){
+    console.log(darkMode)
+    this.setState({ darkMode })
+  }
+
   render() {
-    const { isLogin, accessToken , isGoogle } = this.state;
+    const { isLogin, accessToken , isGoogle, darkMode } = this.state;
     return (
       <Router>
-        <div className='App'>
+        <div className={ !darkMode ? `App` : `App-darkMode`}>
           {isLogin ? (
-            <Mypage accessToken={accessToken} isGoogle={isGoogle}/>
+            <Mypage darkMode={this.state.darkMode} darkModeHandler={this.darkModeHandler} accessToken={accessToken} isGoogle={isGoogle}/>
           ) : (
               <Login />
             )}
