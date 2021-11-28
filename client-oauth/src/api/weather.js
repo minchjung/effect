@@ -1,6 +1,31 @@
 import axios from 'axios';
 
-const getWeather = () => {
+const getWeather = async () => {
+  const API_key = "21674499d78d5cc9f73dd339f934e97d";
+  const endpoint = `http://api.openweathermap.org/data/2.5/weather?id=1835848&appid=${API_key}` 
+  const weatherInfo = await axios.get(endpoint)
+    .catch(err => {
+      return { isSuccess : false, data : null , msg : "Server error"} 
+    })
+    const {
+      id, main, icon 
+    } = weatherInfo.data.weather[0];
+    const { 
+      temp, temp_min, temp_max
+    } = weatherInfo.data.main
+    const{
+      sunrise, sunset
+    } = weatherInfo.data.sys
+
+    const sunfall = new Date(sunset*1000)
+
+    return weatherInfo 
+      ? { 
+          isSuccess : true ,  
+          data : { id, main, icon, temp, temp_min, temp_max , sunrise, sunset }, 
+          msg : "Success" 
+        }
+      : { isSuccess : false, data : null, msg : "Bad Request" }
 
 };
 

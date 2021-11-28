@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { getGoogleAccToken, getKakaoCode } from '../api/social'
+import '../style/Login.css'
 
 class Login extends Component {
   constructor(props) {

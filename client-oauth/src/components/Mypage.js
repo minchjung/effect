@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Info from "./Info"
 import axios from 'axios';
 import Header from './Header'
+import '../style/Mypage.css'
 import { getGoogleUserInfo } from '../api/social'
 import { getWeather, createEffect } from '../api/weather'
 
@@ -13,54 +14,47 @@ function Mypage ({ isGoogle, accessToken }) {
   const [ googleData, setGoogleData ] = useState(null);
   const [ effectOn, seteffectOn ] = useState(false)
 
+  // myPage rendring  :  소셜 userInfo 가져옴 (서버 처리시 수정 필요 )  
   useEffect( () => { 
-    // console.log(accessToken)
-    // console.log("isGoogle ", isGoogle)
     isGoogle 
       ? googleUserHandler() 
       : kakaoUserHandler()
   },[isGoogle])
 
+  // 눈, 비 효과 (시작 버튼 클릭시 falling 효과, 토글 교체 가능)
   const effectOnHandler = () => {
     seteffectOn(true)
     const interval = setInterval(createEffect, 300);
     setIntervalId(interval);
   }
-
+  // 눈, 비 효과 (스탑 버튼 클릭시 멈춤 효과, 토글 교체 가능)
   const effectOffHandler = () => {
     seteffectOn(false)
     clearInterval(intervalId);
   }
 
-  const weatherHandler = async () => {
-    const API_key = "21674499d78d5cc9f73dd339f934e97d";
-    const endpoint = `http://api.openweathermap.org/data/2.5/weather?id=1835848&appid=${API_key}` 
-    const weatherInfo = await axios.get(endpoint)
-    .catch(err=> { console.log(err) })
-
-    if(weatherInfo){
-      const{
-        sunrise, sunset
-      } = weatherInfo.data.sys
-
-      const sunfall = new Date(sunset*1000)
-      // console.log(now.getMilliseconds())
-      // console.log(now.getHours())
-      // console.log(sunfall)
-      
-      sunfall.getHours() > new Date().getHours()
-        ? setBackground({background : ""})
-        : setBackground({background : "darkMode"})
-      const {
-        id, main, icon 
-      } = weatherInfo.data.weather[0];
-      const { 
-        temp, temp_min, temp_max
-      } = weatherInfo.data.main
-      
-      setWeather([id,main,icon]);
-      setTemp([temp, temp_min, temp_max]);
+    // 날씨 api get 요청 ( useEffect 로 랜더링 될때 받아오기로 수정 필요)
+    const weatherHandler = async () => {
+    const result = await getWeather() 
+    if( !result.isSuccess ){ //  결과 요청 실패 
+      console.log(result.msg) //err handle 
+      return 
     }
+    
+    const { // 성공시 가져온 값
+      id, main, icon, temp, temp_min, temp_max, sunrise, sunset
+    } = result.data
+
+    // 현재시간, 일출, 일몰로 darkmode 
+    const night = new Date(sunset*1000).getHours();
+    const morning = new Date(sunrise*1000).getHours();
+    const nowHrs = new Date().getHours();
+    nowHrs > morning && nowHrs <= night  
+      ? setBackground({background : ""})
+      : setBackground({background : "darkMode"})
+      
+    setWeather([id,main,icon]);
+    setTemp([temp, temp_min, temp_max]);
   }
 
   const googleUserHandler = async () => {
@@ -98,13 +92,13 @@ function Mypage ({ isGoogle, accessToken }) {
         {/* <div className={this.state.background}> */}
           <div> 
             <div className="main-center-container">
+            <div className="myTitle">WeaDresser</div>
               <div className="imgWrapper"> 
-                  <i class="fas fa-cloud"></i>
-                  <i class="far fa-sun"></i>
-                  <i class="fas fa-cloud-showers-heavy"></i>
-                  <i class="fas fa-cloud-sun"></i>
+                  <i className="fas fa-cloud"></i>
+                  <i className="far fa-sun"></i>
+                  <i className="fas fa-cloud-showers-heavy"></i>
+                  <i className="fas fa-cloud-sun"></i>
               </div>
-              <div className="myTitle">WeaDresser</div>
               <Info 
                 temp={temp[0]} temp_max={temp[2]} temp_min={temp[1]} 
                 icon={weather[2]} codeId ={weather[0]} main={weather[1]}
